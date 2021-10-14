@@ -35,21 +35,25 @@ function getTVShowListAPI (){
     })
 }
 
+//creates objects with data for each movie
 function getTitleForMoviesAndShows(){
     for(i=0; i<movieList.length; i++){
+        //finds each movie based on imdbID
         fetch("http://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString())
         .then(function(response){
             return response.json()
         })
+        //creates the object
         .then(function(data){
-            movieObject[i] = {
-                genre:data.genre,
-                title:data.title,
-                year:data.year,
-                image:data.poster,
+            var movieData = {
+                genre:data.Genre,
+                title:data.Title,
+                year:data.Year,
+                poster:data.Poster,
                 rating:data.imdbRating
             }
-            console.log(data)
+            movieObject[i] = movieData
+            console.log(movieObject[i])
         })
     }
     
