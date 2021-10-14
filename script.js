@@ -52,9 +52,23 @@ function getTitleForMoviesAndShows(){
                 poster:data.Poster,
                 rating:data.imdbRating
             }
-            movieObject[i] = movieData
-            console.log(movieObject[i])
+            movieObject.push(movieData)
+        })
+        //finds each tv show based on imbdID
+        fetch("http://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString())
+        .then(function(response){
+            return response.json()
+        })
+        //creates the object
+        .then(function(data){
+            var tvData = {
+                genre:data.Genre,
+                title:data.Title,
+                year:data.Year,
+                poster:data.Poster,
+                rating:data.imdbRating
+            }
+            tvObject.push(tvData) 
         })
     }
-    
 }
