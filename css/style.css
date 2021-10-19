@@ -13,6 +13,22 @@
   background-color: #141a31;
   
  }
+
+
+ #logo-container {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.mood {
+  color: #4ca7a2;
+}
+
+.vies {
+  color: #cf6464;
+}
+
+
+
 .row{
   margin-bottom: 0px;
 }
