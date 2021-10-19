@@ -6,17 +6,20 @@
  * Made By MaterializeCSS.com
  */
 
+
+
+ /* STARTER PAGE SECTION */
  body{
    background-color: #0a0e1d;
  }
+
  .container{
   background-color: #141a31;
-  
  }
-
 
  #logo-container {
   font-family: 'Ubuntu', sans-serif;
+  font-size: 50px;
 }
 
 .mood {
@@ -24,10 +27,32 @@
 }
 
 .vies {
-  color: #cf6464;
+  color: #3c3f58;
+}
+
+.emojiBtn {
+  height: 6rem;
+  padding-top: 15px;
+}
+
+.btn .emojiIcon {
+  font-size: 4rem;
+}
+
+.subtitle {
+  margin-top: 0;
+  padding-top: 40px;
+  padding-bottom: 10px;
+}
+
+.emojiPadding {
+  padding-top: 20px;
+  padding-bottom: 100px;
 }
 
 
+
+/* LANDING HTML SECTION */
 
 .row{
   margin-bottom: 0px;
