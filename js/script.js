@@ -15,8 +15,20 @@ var inLove = [];
 
 
 
-
-
+//checks local storage creates objects if null
+function checkLocalStorage(){
+    movieObject = JSON.parse(localStorage.getItem('movies'))
+    tvObject = JSON.parse(localStorage.getItem('shows'))
+    console.log(movieObject)
+    console.log(tvObject)
+    if(!movieObject && !tvObject){
+        movieObject = []
+        tvObject = []
+        getMovieListAPI()
+        getTVShowListAPI()
+        getTitleForMoviesAndShows()
+    }
+}
 
 //creates an array of movies with IMDb-API
 function getMovieListAPI(){
@@ -50,7 +62,7 @@ function getTVShowListAPI (){
 function getTitleForMoviesAndShows(){
     for(i=0; i<movieList.length; i++){
         //finds each movie based on imdbID
-        fetch("http://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString())
+        fetch("http://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString()+"&plot=full")
         .then(function(response){
             return response.json()
         })
@@ -61,12 +73,13 @@ function getTitleForMoviesAndShows(){
                 title:data.Title,
                 year:data.Year,
                 poster:data.Poster,
-                rating:data.imdbRating
+                rating:data.imdbRating,
+                plot:data.Plot
             }
             movieObject.push(movieData)
         })
         //finds each tv show based on imbdID
-        fetch("http://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString())
+        fetch("http://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString()+"&plot=full")
         .then(function(response){
             return response.json()
         })
@@ -77,11 +90,15 @@ function getTitleForMoviesAndShows(){
                 title:data.Title,
                 year:data.Year,
                 poster:data.Poster,
-                rating:data.imdbRating
+                rating:data.imdbRating,
+                plot:data.Plot
             }
             tvObject.push(tvData) 
         })
     }
+    //sets local items
+    localStorage.setItem('movies', JSON.stringify(movieObject))
+    localStorage.setItem('shows', JSON.stringify(tvObject))
 }
 //seperate movies
 
@@ -196,12 +213,12 @@ function getInLove(){
     }
 }
 //end of get emotion functions
-
-var selectedEmotion = 144;
+var selectedEmotion;
 //creates menu for 
 function createColumnCards(){
-    offset = 0;
-    for(i=0; i<selectedEmotion.length; i++){
+    offset = 1;
+    
+    for(i=offset; i<offset+12; i++){
         var mainCardArea = $('#movie-container .row')
         //creates main card column
         var mainCardAreaNumber = $('<div class="col s6 m4  12" id=movieNo-'+i+'>')
@@ -210,32 +227,29 @@ function createColumnCards(){
         $('<div class="card">').appendTo(mainCardArea.children())
         //gives the card an image container and specifies the image
         $('<div class="card-image waves-effect waves-block waves-light">').appendTo(mainCardAreaNumber.find('.card'))
-        $('<img class="activator" src="./images/thumb01.jpg">').appendTo(mainCardAreaNumber.find('.card-image'))
+        $(`<img class="activator" src="${selectedEmotion[i].poster}">`).appendTo(mainCardAreaNumber.find('.card-image'))
         //gives the card details and a link
         $('<div class="card-content cardBg">').appendTo(mainCardAreaNumber.find('.card'))
-        $('<span class="card-title activator white-text text-lighter customCardTitle">').text('Movie Title').appendTo(mainCardAreaNumber.find('.card-content'))
+        $('<span class="card-title activator white-text text-lighter customCardTitle">').text(selectedEmotion[i].title).appendTo(mainCardAreaNumber.find('.card-content'))
         $('<i class="material-icons right">').text('more_vert').appendTo(mainCardAreaNumber.find('.card-title'))
         $('<p>').appendTo(mainCardAreaNumber.find('.card-content'))
         $('<a href="#">').text('This is a link').appendTo(mainCardAreaNumber.find('.card-content p'))
         //creates the reveal part of card
         $('<div class="card-reveal cardBg">').appendTo(mainCardAreaNumber.find('.card'))
-        $('<span class="card-title activator white-text text-lighter customCardTitle">').text('Movie Title').appendTo(mainCardAreaNumber.find('.card-reveal'))
+        $('<span class="card-title activator white-text text-lighter customCardTitle">').text(selectedEmotion[i].title).appendTo(mainCardAreaNumber.find('.card-reveal'))
         $('<i class="material-icons right">').text('close').appendTo(mainCardAreaNumber.find('.card-reveal .card-title'))
-        $('<p class="white-text text-lighter">').text('Here is some more information about this product that is only revealed once clicked on.').appendTo(mainCardAreaNumber.find('.card-reveal'))
+        $('<p class="white-text text-lighter">').text(selectedEmotion[i].plot).appendTo(mainCardAreaNumber.find('.card-reveal'))
     }
 }
 var activePage;
 var lastPage;
 //function to create amount of pages in pagination
 function pageAmount(){
-    var pages = Math.ceil(selectedEmotion/12)
+    var pages = Math.ceil(selectedEmotion.length/12)
     lastPage = pages
     for(i=1; i<=pages;i++){
-        if(i===1){
-            $('<li class="active"><a href="#movie-page-'+i+'">'+i+'</a></li>').insertBefore('.pagination li:last-child')
-        }else{
-            $('<li class="waves-effect"><a href="#movie-page-'+i+'">'+i+'</a></li>').insertBefore('.pagination li:last-child')
-        }
+        //from alfie ty much hlep
+        $(`<li class="${i === 1 ? 'active' : 'wave-length'}"><a id="movie-page-${i}">${i}</a></li>`).insertBefore('.pagination li:last-child')
     }
     activePage = 1;
 }
@@ -245,9 +259,9 @@ $('#movie-container-pages').find('.pagination li:first-child a').click(function 
     if(activePage === 1){
         return
     }else{
-        $('movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'waves-effect')
+        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'waves-effect')
         activePage--;
-        $('movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'active')
+        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'active')
         console.log(activePage)
     }
 })
@@ -256,9 +270,9 @@ $('#movie-container-pages').find('.pagination li:last-child a').click(function n
     if(activePage === lastPage){
         return
     }else{
-        $('movie-page-'+activePage+'').parent()
+        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'waves-effect')
         activePage++
-        $('movie-container-pages').find('#movie-page-'+activePage+'').parent('li').attr('class', 'active')
+        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent('li').attr('class', 'active')
         console.log(activePage)
     }
 })
