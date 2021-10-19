@@ -210,14 +210,14 @@ function getHappyTv(){
         for(j=0;j<tvObject.length;j++){
             //checks if Tv show has already been added or not
             if(tvObject[j].genre.search(emotionHappy[i]) >= 0){
-                for(k=0;k<happy.length;k++){
-                    if(happy[k] === tvObject[j]){
+                for(k=0;k<happyTv.length;k++){
+                    if(happyTv[k] === tvObject[j]){
                         TvAlreadyAdded = true;
                     }
                 }
                 //pushes Tv show to the emotion array
                 if(!TvAlreadyAdded){
-                    happy.push(tvObject[j])
+                    happyTv.push(tvObject[j])
                 }else{
                     TvAlreadyAdded = false;
                 }
@@ -232,13 +232,13 @@ function getSadTv(){
     for(i=0;i<emotionSad.length;i++){
         for(j=0;j<tvObject.length;j++){
             if(tvObject[j].genre.search(emotionSad[i]) >= 0){
-                for(k=0;k<sad.length;k++){
-                    if(sad[k] === tvObject[j]){
+                for(k=0;k<sadTv.length;k++){
+                    if(sadTv[k] === tvObject[j]){
                         TvAlreadyAdded = true;
                     }
                 }
                 if(!TvAlreadyAdded){
-                    sad.push(tvObject[j])
+                    sadTv.push(tvObject[j])
                 }else{
                     TvAlreadyAdded = false;
                 }
@@ -253,13 +253,13 @@ function getAngryTv(){
     for(i=0;i<emotionAngry.length;i++){
         for(j=0;j<tvObject.length;j++){
             if(tvObject[j].genre.search(emotionAngry[i]) >= 0){
-                for(k=0;k<angry.length;k++){
-                    if(angry[k] === tvObject[j]){
+                for(k=0;k<angryTv.length;k++){
+                    if(angryTv[k] === tvObject[j]){
                         TvAlreadyAdded = true;
                     }
                 }
                 if(!TvAlreadyAdded){
-                    angry.push(tvObject[j])
+                    angryTv.push(tvObject[j])
                 }else{
                     TvAlreadyAdded = false;
                 }
@@ -274,13 +274,13 @@ function getAnxiousTv(){
     for(i=0;i<emotionAnxious.length;i++){
         for(j=0;j<TvAlreadyAdded.length;j++){
             if(tvObject[j].genre.search(emotionAnxious[i]) >= 0){
-                for(k=0;k<anxious.length;k++){
-                    if(anxious[k] === tvObject[j]){
+                for(k=0;k<anxiousTv.length;k++){
+                    if(anxiousTv[k] === tvObject[j]){
                         TvAlreadyAdded = true;
                     }
                 }
                 if(!TvAlreadyAdded){
-                    anxious.push(tvObject[j])
+                    anxiousTv.push(tvObject[j])
                 }else{
                     TvAlreadyAdded = false;
                 }
@@ -295,13 +295,13 @@ function getInLoveTv(){
     for(i=0;i<emotionInLove.length;i++){
         for(j=0;j<tvObject.length;j++){
             if(tvObject[j].genre.search(emotionInLove[i]) >= 0){
-                for(k=0;k<inLove.length;k++){
-                    if(inLove[k] === tvObject[j]){
+                for(k=0;k<inLoveTv.length;k++){
+                    if(inLoveTv[k] === tvObject[j]){
                         TvAlreadyAdded = true;
                     }
                 }
                 if(!TvAlreadyAdded){
-                    inLove.push(tvObject[j])
+                    inLoveTv.push(tvObject[j])
                 }else{
                     TvAlreadyAdded = false;
                 }
@@ -321,3 +321,5 @@ $('.carousel').carousel({
     // $('.carousel').width(600);
     // $('.carousel').height(250);
   });
+
+  
