@@ -13,6 +13,12 @@ var angry = [];
 var anxious = [];
 var inLove = [];
 
+var happyTv = [];
+var sadTv = [];
+var angryTv = [];
+var anxiousTv = [];
+var inLoveTv = [];
+
 
 //creates an array of movies with IMDb-API
 function getMovieListAPI(){
@@ -192,6 +198,118 @@ function getInLove(){
     }
 }
 //end of get emotion functions
+
+//function to get a list of happy Tv shows
+function getHappyTv(){
+    //array for genre options
+    var emotionHappy = ["Adventure", "Animation", "Comedy", "Family", "Fantasy", "Gameshow", "Musical"]
+    var TvAlreadyAdded = false;
+    //loop to go through the genre
+    for(i=0;i<emotionHappy.length;i++){
+        //loops through Tv show
+        for(j=0;j<tvObject.length;j++){
+            //checks if Tv show has already been added or not
+            if(tvObject[j].genre.search(emotionHappy[i]) >= 0){
+                for(k=0;k<happy.length;k++){
+                    if(happy[k] === tvObject[j]){
+                        TvAlreadyAdded = true;
+                    }
+                }
+                //pushes Tv show to the emotion array
+                if(!TvAlreadyAdded){
+                    happy.push(tvObject[j])
+                }else{
+                    TvAlreadyAdded = false;
+                }
+            }
+        }
+    }
+}
+//gets list of sad Tv shows
+function getSadTv(){
+    var emotionSad = ["Documentary", "Drama", "History", "Romance", "War"]
+    var TvAlreadyAdded = false;
+    for(i=0;i<emotionSad.length;i++){
+        for(j=0;j<tvObject.length;j++){
+            if(tvObject[j].genre.search(emotionSad[i]) >= 0){
+                for(k=0;k<sad.length;k++){
+                    if(sad[k] === tvObject[j]){
+                        TvAlreadyAdded = true;
+                    }
+                }
+                if(!TvAlreadyAdded){
+                    sad.push(tvObject[j])
+                }else{
+                    TvAlreadyAdded = false;
+                }
+            }
+        }
+    }
+}
+//gets list of Angry Tv shows
+function getAngryTv(){
+    var emotionAngry = ["Action", "Crime", "Documentary", "History", "Sci-Fi", "Sport", "War", "Western"]
+    var TvAlreadyAdded = false;
+    for(i=0;i<emotionAngry.length;i++){
+        for(j=0;j<tvObject.length;j++){
+            if(tvObject[j].genre.search(emotionAngry[i]) >= 0){
+                for(k=0;k<angry.length;k++){
+                    if(angry[k] === tvObject[j]){
+                        TvAlreadyAdded = true;
+                    }
+                }
+                if(!TvAlreadyAdded){
+                    angry.push(tvObject[j])
+                }else{
+                    TvAlreadyAdded = false;
+                }
+            }
+        }
+    }
+}
+//get list of Anxious Tv shows
+function getAnxiousTv(){
+    var emotionAnxious = ["Crime", "Documentary", "Film-Noir", "Horror", "Music", "Mystery", "Thriller"]
+    var TvAlreadyAdded = false;
+    for(i=0;i<emotionAnxious.length;i++){
+        for(j=0;j<TvAlreadyAdded.length;j++){
+            if(tvObject[j].genre.search(emotionAnxious[i]) >= 0){
+                for(k=0;k<anxious.length;k++){
+                    if(anxious[k] === tvObject[j]){
+                        TvAlreadyAdded = true;
+                    }
+                }
+                if(!TvAlreadyAdded){
+                    anxious.push(tvObject[j])
+                }else{
+                    TvAlreadyAdded = false;
+                }
+            }
+        }
+    }
+}
+//gets list of loving Tv shows
+function getInLove(){
+    var emotionInLove = ["Adventure", "Animation", "Drama", "Family", "Fantasy", "Romance"]
+    var TvAlreadyAdded = false;
+    for(i=0;i<emotionInLove.length;i++){
+        for(j=0;j<tvObject.length;j++){
+            if(tvObject[j].genre.search(emotionInLove[i]) >= 0){
+                for(k=0;k<inLove.length;k++){
+                    if(inLove[k] === tvObject[j]){
+                        TvAlreadyAdded = true;
+                    }
+                }
+                if(!TvAlreadyAdded){
+                    inLove.push(tvObject[j])
+                }else{
+                    TvAlreadyAdded = false;
+                }
+            }
+        }
+    }
+}
+//end of get Tv emotion functions
 
 //code for materialize carousel
 $('.carousel').carousel({
