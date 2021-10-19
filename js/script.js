@@ -289,7 +289,7 @@ function getAnxiousTv(){
     }
 }
 //gets list of loving Tv shows
-function getInLove(){
+function getInLoveTv(){
     var emotionInLove = ["Adventure", "Animation", "Drama", "Family", "Fantasy", "Romance"]
     var TvAlreadyAdded = false;
     for(i=0;i<emotionInLove.length;i++){
