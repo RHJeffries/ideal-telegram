@@ -14,6 +14,10 @@ var anxious = [];
 var inLove = [];
 
 
+
+
+
+
 //creates an array of movies with IMDb-API
 function getMovieListAPI(){
     fetch("https://imdb-api.com/en/API/Top250Movies/k_7sn98acw")
@@ -192,6 +196,72 @@ function getInLove(){
     }
 }
 //end of get emotion functions
+
+var selectedEmotion = 144;
+//creates menu for 
+function createColumnCards(){
+    offset = 0;
+    for(i=0; i<selectedEmotion.length; i++){
+        var mainCardArea = $('#movie-container .row')
+        //creates main card column
+        var mainCardAreaNumber = $('<div class="col s6 m4  12" id=movieNo-'+i+'>')
+        mainCardAreaNumber.appendTo(mainCardArea)
+        //creates the main card
+        $('<div class="card">').appendTo(mainCardArea.children())
+        //gives the card an image container and specifies the image
+        $('<div class="card-image waves-effect waves-block waves-light">').appendTo(mainCardAreaNumber.find('.card'))
+        $('<img class="activator" src="./images/thumb01.jpg">').appendTo(mainCardAreaNumber.find('.card-image'))
+        //gives the card details and a link
+        $('<div class="card-content cardBg">').appendTo(mainCardAreaNumber.find('.card'))
+        $('<span class="card-title activator white-text text-lighter customCardTitle">').text('Movie Title').appendTo(mainCardAreaNumber.find('.card-content'))
+        $('<i class="material-icons right">').text('more_vert').appendTo(mainCardAreaNumber.find('.card-title'))
+        $('<p>').appendTo(mainCardAreaNumber.find('.card-content'))
+        $('<a href="#">').text('This is a link').appendTo(mainCardAreaNumber.find('.card-content p'))
+        //creates the reveal part of card
+        $('<div class="card-reveal cardBg">').appendTo(mainCardAreaNumber.find('.card'))
+        $('<span class="card-title activator white-text text-lighter customCardTitle">').text('Movie Title').appendTo(mainCardAreaNumber.find('.card-reveal'))
+        $('<i class="material-icons right">').text('close').appendTo(mainCardAreaNumber.find('.card-reveal .card-title'))
+        $('<p class="white-text text-lighter">').text('Here is some more information about this product that is only revealed once clicked on.').appendTo(mainCardAreaNumber.find('.card-reveal'))
+    }
+}
+var activePage;
+var lastPage;
+//function to create amount of pages in pagination
+function pageAmount(){
+    var pages = Math.ceil(selectedEmotion/12)
+    lastPage = pages
+    for(i=1; i<=pages;i++){
+        if(i===1){
+            $('<li class="active"><a href="#movie-page-'+i+'">'+i+'</a></li>').insertBefore('.pagination li:last-child')
+        }else{
+            $('<li class="waves-effect"><a href="#movie-page-'+i+'">'+i+'</a></li>').insertBefore('.pagination li:last-child')
+        }
+    }
+    activePage = 1;
+}
+
+//function to move page one left
+$('#movie-container-pages').find('.pagination li:first-child a').click(function previousMoviePage(){
+    if(activePage === 1){
+        return
+    }else{
+        $('movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'waves-effect')
+        activePage--;
+        $('movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'active')
+        console.log(activePage)
+    }
+})
+//function to move page on right
+$('#movie-container-pages').find('.pagination li:last-child a').click(function nextMoviePage(){
+    if(activePage === lastPage){
+        return
+    }else{
+        $('movie-page-'+activePage+'').parent()
+        activePage++
+        $('movie-container-pages').find('#movie-page-'+activePage+'').parent('li').attr('class', 'active')
+        console.log(activePage)
+    }
+})
 
 //code for materialize carousel
 $('.carousel').carousel({
