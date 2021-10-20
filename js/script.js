@@ -14,6 +14,11 @@ var anxious = [];
 var inLove = [];
 
 
+//when page loads
+onLoad()
+function onLoad(){
+    checkLocalStorage()
+}
 
 //checks local storage creates objects if null
 function checkLocalStorage(){
@@ -21,7 +26,7 @@ function checkLocalStorage(){
     tvObject = JSON.parse(localStorage.getItem('shows'))
     console.log(movieObject)
     console.log(tvObject)
-    if(!movieObject && !tvObject){
+    if(movieObject==0 && tvObject==0){
         movieObject = []
         tvObject = []
         getMovieListAPI()
@@ -97,9 +102,13 @@ function getTitleForMoviesAndShows(){
         })
     }
     //sets local items
+    setLocalItems()
+}
+function setLocalItems(){
     localStorage.setItem('movies', JSON.stringify(movieObject))
     localStorage.setItem('shows', JSON.stringify(tvObject))
 }
+
 //seperate movies
 
 //function to get a list of happy movies
@@ -214,12 +223,18 @@ function getInLove(){
 }
 //end of get emotion functions
 var selectedEmotion;
+var offset;
 //creates menu for 
 function createColumnCards(){
-    offset = 1;
-    
-    for(i=offset; i<offset+12; i++){
-        var mainCardArea = $('#movie-container .row')
+    var mainCardArea = $('#movie-container .row')
+    mainCardArea.children().remove()
+    if(!offset){
+        offset = 1
+    }
+    for(i=(offset*12)-11; i<=offset*12; i++){
+        if(!selectedEmotion[i]){
+            return
+        }
         //creates main card column
         var mainCardAreaNumber = $('<div class="col s6 m4  12" id=movieNo-'+i+'>')
         mainCardAreaNumber.appendTo(mainCardArea)
@@ -252,6 +267,7 @@ function pageAmount(){
         $(`<li class="${i === 1 ? 'active' : 'wave-length'}"><a id="movie-page-${i}">${i}</a></li>`).insertBefore('.pagination li:last-child')
     }
     activePage = 1;
+    createColumnCards()
 }
 
 //function to move page one left
@@ -263,6 +279,8 @@ $('#movie-container-pages').find('.pagination li:first-child a').click(function 
         activePage--;
         $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'active')
         console.log(activePage)
+        offset = activePage
+        createColumnCards()
     }
 })
 //function to move page on right
@@ -274,6 +292,8 @@ $('#movie-container-pages').find('.pagination li:last-child a').click(function n
         activePage++
         $('#movie-container-pages').find('#movie-page-'+activePage+'').parent('li').attr('class', 'active')
         console.log(activePage)
+        offset = activePage
+        createColumnCards()
     }
 })
 
