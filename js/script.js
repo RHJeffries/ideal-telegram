@@ -4,8 +4,8 @@ const omdbURL = "http://www.omdbapi.com/?apikey=91114430"
 var movieList = [];
 var tvList = [];
 
-var movieObject = [];
-var tvObject = [];
+var movieObject;
+var tvObject;
 
 var selectedEmotion = JSON.parse(localStorage.getItem('selectedEmotion'))
 
@@ -36,7 +36,7 @@ function checkLocalStorage(){
     tvObject = JSON.parse(localStorage.getItem('shows'))
     console.log(movieObject)
     console.log(tvObject)
-    if(movieObject===0 && tvObject===0){
+    if(!movieObject && !tvObject){
         movieObject = []
         tvObject = []
         getMovieListAPI()
