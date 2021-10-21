@@ -5,29 +5,34 @@
  *
  * Made By MaterializeCSS.com
  */
-
+ 
+ body{
+  background-color: #0a0e1d;
+  /* display: flex;
+  min-height: 100vh;
+  flex-direction: column; */
+}
+/* main {
+  flex: 1 0 auto;
+} */
+.container{
+ background-color: #141a31;
+}
+.row{
+ margin-bottom: 0px;
+}
 
 
  /* STARTER PAGE SECTION */
- body{
-   background-color: #0a0e1d;
- }
 
- .container{
-  background-color: #141a31;
- }
-
- #logo-container {
-  font-family: 'Ubuntu', sans-serif;
+ .logo-containerIndex {
   font-size: 50px;
 }
 
-.mood {
-  color: #4ca7a2;
-}
-
-.vies {
-  color: #3c3f58;
+.subtitle {
+  margin-top: 0;
+  padding-top: 40px;
+  padding-bottom: 10px;
 }
 
 .emojiBtn {
@@ -39,12 +44,6 @@
   font-size: 4rem;
 }
 
-.subtitle {
-  margin-top: 0;
-  padding-top: 40px;
-  padding-bottom: 10px;
-}
-
 .emojiPadding {
   padding-top: 20px;
   padding-bottom: 100px;
@@ -54,104 +53,82 @@
 
 /* LANDING HTML SECTION */
 
-.row{
-  margin-bottom: 0px;
-}
-/* .wrapper{
-  margin: 0 auto;
-background-color: red;
 
-} */
-.brand-logo{
-align-content: center;
 
+/* logo/app name styling */
+#logo-container {
+ font-family: 'Ubuntu', sans-serif;
 }
-.icon-block {
-  padding: 0 15px;
+.mood {
+ color: #4ca7a2;
 }
-.icon-block .material-icons {
-	font-size: inherit;
+.vies {
+ color: #3c3f58;
 }
+
+/* Navbar background */
+
 .customNav{
 background-color: #141a31;
-/* align-items: center; */
 }
-.carousel{
-  height:40vh;
 
+/* Carousal */
+.carousel{
+ height:40vh;
 }
 .carousel-item {
-
-  width: 450px !important;
-  height: 250px !important;
+ width: 450px !important;
+ height: 250px !important;
 }
-
 .cc1{
-  background-image: url(../images/cc1.jpg);
+ background-image: url(../images/cc1.jpg);
 }
 .cc2{
-  background-image: url(../images/cc2.jpg);
+ background-image: url(../images/cc2.jpg);
 }
 .cc3{
-  background-image: url(../images/cc3.jpg);
+ background-image: url(../images/cc3.jpg);
 }
 .cc4{
-  background-image: url(../images/cc4.jpg);
+ background-image: url(../images/cc4.jpg);
 }
 .cc1, .cc2, .cc3, .cc4{
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+ background-size: cover;
+ background-repeat: no-repeat;
+ background-position: center;
 } 
 
+/* search result cards */
 .cardBg {
-
-  background-color: #141a31 !important;
+ background-color: #141a31 !important;
 }
-
 .card {
-  border-radius: 6px !important;
-  /* width:200px; */
+ border-radius: 6px !important;
 } 
 .card .card-content {
-  padding: 10px !important;
-  border-radius: 0 0 3px 3px !important;
-  height: 85px;
-}
-.card .card-image{
-  height: 315px;
-  background: #141a31;
+ padding: 10px !important;
+ border-radius: 0 0 3px 3px !important;
 }
 .customCardTitle{
-  font-size: 100% !important;
-  line-height: 100% !important;
-}
-.pagination{
-  margin: 0px auto;
+ font-size: 22px !important;
 }
 
+/* Buttons */
 .btn{
-  background-color: #1e2746 !important;
+ background-color: #1e2746 !important;
 }
-/*.btn:visited{
-  background-color: yellow !important;
-}
-.btn:hover {
-  background-color: skyblue !important;
-}
-.btn:active{
-  background-color: pink !important;
-}
-.btn:focus{
-  background-color: pink !important;
-} */
 .btn-large{
-  margin:10px;
+ margin:10px;
 }
+
+/* Footer */
 .page-footer{
-  background-color: #1e2746 !important;
+ background-color: #1e2746 !important;
 }
-.fa{
-  color:  #1e2746 !important;
-  /* font-size: 50px; */
+
+/* To remove carousal on screens less than 600px */
+@media only screen and (max-width: 600px) {
+ .customCC {
+   display: none;
+ }
 }
