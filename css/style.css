@@ -80,7 +80,7 @@ background-color: #141a31;
  width: 450px !important;
  height: 250px !important;
 }
-.cc1{
+/*.cc1{
  background-image: url(../images/cc1.jpg);
 }
 .cc2{
@@ -91,28 +91,42 @@ background-color: #141a31;
 }
 .cc4{
  background-image: url(../images/cc4.jpg);
-}
+}*/
 .cc1, .cc2, .cc3, .cc4{
- background-size: cover;
+ background-size: contain;
  background-repeat: no-repeat;
  background-position: center;
+
 } 
 
 /* search result cards */
+#selector-buttons {
+  padding: 0px 12px;
+}
+.pagination{
+  display: flex;
+  justify-content: center;
+}
 .cardBg {
  background-color: #141a31 !important;
 }
 .card {
  border-radius: 6px !important;
+ background: #141a31;
 } 
 .card .card-content {
  padding: 10px !important;
  border-radius: 0 0 3px 3px !important;
+ height: 80px;
+ overflow: hidden;
+
+}
+.card .card-content .card-title{
+  line-height: 100%;
 }
 .customCardTitle{
- font-size: 22px !important;
+ font-size: 100% !important;
 }
-
 /* Buttons */
 .btn{
  background-color: #1e2746 !important;
@@ -126,9 +140,37 @@ background-color: #141a31;
  background-color: #1e2746 !important;
 }
 
+@media only screen and (max-width: 400px){
+  .card{
+    height: 100vw;
+  }
+  .card .card-content{
+    height: 100px;
+  }
+}
 /* To remove carousal on screens less than 600px */
+
 @media only screen and (max-width: 600px) {
  .customCC {
    display: none;
  }
+ .card{
+   height: 80vw;
+ }
 }
+@media only screen and (max-width: 400px){
+  .card{
+    height: 90vw;
+  }
+}
+@media only screen and (min-width: 600px){
+  .card{
+    height: 50vw;
+  }
+}
+@media only screen and (min-width: 1001px){
+  .card{
+    height: 40vw;
+  }
+}
+
