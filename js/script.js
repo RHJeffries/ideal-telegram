@@ -26,8 +26,7 @@ var inLoveTv = [];
 onLoad()
 function onLoad(){
     checkLocalStorage()
-    getEmotionList()
-    pageAmount()
+    
 }
 
 //checks local storage creates objects if null
@@ -36,18 +35,25 @@ function checkLocalStorage(){
     tvObject = JSON.parse(localStorage.getItem('shows'))
     console.log(movieObject)
     console.log(tvObject)
-    if(movieObject==0 && tvObject==0){
+    if(!movieObject && !tvObject || movieObject == 0 && tvObject == 0){
         movieObject = []
         tvObject = []
         getMovieListAPI()
         getTVShowListAPI()
-        getTitleForMoviesAndShows()
+        setTimeout(function(){
+            getEmotionList()
+            pageAmount()
+        }, 5000)
+             
+    }else{
+        getEmotionList()
+        pageAmount()
     }
 }
 
 //creates an array of movies with IMDb-API
 function getMovieListAPI(){
-    fetch("https://imdb-api.com/en/API/Top250Movies/k_7sn98acw")
+    fetch("https://imdb-api.com/en/API/Top250Movies/k_ikibdvys")
     .then(function(response){
         return response.json()
     })
@@ -56,12 +62,13 @@ function getMovieListAPI(){
             //pushed movie id's to movieList Variable
             movieList.push(data.items[i].id)
         }
+        getMovieData()
     })
 }
 
 //creates an array of tv shows with IMDb-API
 function getTVShowListAPI (){
-    fetch("https://imdb-api.com/en/API/Top250TVs/k_7sn98acw")
+    fetch("https://imdb-api.com/en/API/Top250TVs/k_ikibdvys")
     .then(function(response){
         return response.json()
     })
@@ -70,53 +77,72 @@ function getTVShowListAPI (){
         for(i=0; i<data.items.length; i++){
             tvList.push(data.items[i].id)
         }
+        getTvData()
     })
 }
-
 //creates objects with data for each movie
-function getTitleForMoviesAndShows(){
-    for(i=0; i<movieList.length; i++){
-        //finds each movie based on imdbID
-        fetch("http://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString()+"&plot=full")
-        .then(function(response){
-            return response.json()
-        })
-        //creates the object
-        .then(function(data){
-            var movieData = {
-                genre:data.Genre,
-                title:data.Title,
-                year:data.Year,
-                poster:data.Poster,
-                rating:data.imdbRating,
-                plot:data.Plot
-            }
-            movieObject.push(movieData)
-        })
-        //finds each tv show based on imbdID
-        fetch("http://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString()+"&plot=full")
-        .then(function(response){
-            return response.json()
-        })
-        //creates the object
-        .then(function(data){
-            var tvData = {
-                genre:data.Genre,
-                title:data.Title,
-                year:data.Year,
-                poster:data.Poster,
-                rating:data.imdbRating,
-                plot:data.Plot
-            }
-            tvObject.push(tvData) 
-        })
+function getMovieData(){
+    let promises = [];
+    for(let i = 0; i <movieList.length; i++){
+        promises.push(fetch("http://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString()+"&plot=full"))
     }
-    //sets local items
-    setLocalItems()
+    Promise.all(promises)
+        .then(function (responseArr){
+            console.log(responseArr)
+            let dataArr = [];
+            for(let i = 0; i <responseArr.length; i++){
+                dataArr.push(responseArr[i].json())
+            }
+            Promise.all(dataArr)
+            .then(function(data){
+                console.log(data)
+                for(let i = 0; i<data.length; i++){
+                    var movieData = {
+                        genre:data[i].Genre,
+                        title:data[i].Title,
+                        year:data[i].Year,
+                        poster:data[i].Poster,
+                        rating:data[i].imdbRating,
+                        plot:data[i].Plot
+                    }
+                    movieObject.push(movieData)
+                }
+                localStorage.setItem('movies', JSON.stringify(movieObject))
+                console.log(movieObject)
+            })
+        })
 }
-function setLocalItems(){
-    localStorage.setItem('movies', JSON.stringify(movieObject))
-    localStorage.setItem('shows', JSON.stringify(tvObject))
+function getTvData(){
+    let promises = [];
+    for(let i = 0; i <tvList.length; i++){
+        promises.push(fetch("http://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString()+"&plot=full"))
+    }
+    Promise.all(promises)
+        .then(function (responseArr){
+            console.log(responseArr)
+            let dataArr = [];
+            for(let i = 0; i <responseArr.length; i++){
+                dataArr.push(responseArr[i].json())
+            }
+            Promise.all(dataArr)
+            .then(function(data){
+                console.log(data)
+                for(let i = 0; i<data.length; i++){
+                    var tvData = {
+                        genre:data[i].Genre,
+                        title:data[i].Title,
+                        year:data[i].Year,
+                        poster:data[i].Poster,
+                        rating:data[i].imdbRating,
+                        plot:data[i].Plot
+                    }
+                    tvObject.push(tvData)
+                }
+                localStorage.setItem('shows', JSON.stringify(tvObject))
+                console.log(tvObject)
+
+            })
+        })
 }
 //shuffles arrays so they aren't always the same
 function shuffle(selectedEmotion) {
