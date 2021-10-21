@@ -4,8 +4,8 @@ const omdbURL = "http://www.omdbapi.com/?apikey=91114430"
 var movieList = [];
 var tvList = [];
 
-var movieObject;
-var tvObject;
+var movieObject = [];
+var tvObject = [];
 
 var selectedEmotion = JSON.parse(localStorage.getItem('selectedEmotion'))
 
@@ -28,6 +28,7 @@ function onLoad(){
     checkLocalStorage()
     getEmotionList()
     pageAmount()
+    setLocalItems()
 }
 
 //checks local storage creates objects if null
@@ -36,7 +37,7 @@ function checkLocalStorage(){
     tvObject = JSON.parse(localStorage.getItem('shows'))
     console.log(movieObject)
     console.log(tvObject)
-    if(!movieObject && !tvObject){
+    if(!movieObject && !tvObject || movieObject == 0 && tvObject == 0){
         movieObject = []
         tvObject = []
         getMovieListAPI()
@@ -72,9 +73,21 @@ function getTVShowListAPI (){
         }
     })
 }
-
+/*function getMovieData(){
+    let promises = [];
+    for(let i = 0; i <movieList.length; i++){
+        promises.push(fetch("http://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString()+"&plot=full"))
+    }
+    Promise.all(promises)
+        .then(function (data){
+            console.log(data)
+        })
+}*/
 //creates objects with data for each movie
 function getTitleForMoviesAndShows(){
+    //getMovieData()
+    
+
     for(i=0; i<movieList.length; i++){
         //finds each movie based on imdbID
         fetch("http://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString()+"&plot=full")
@@ -92,27 +105,29 @@ function getTitleForMoviesAndShows(){
                 plot:data.Plot
             }
             movieObject.push(movieData)
+            
+            fetch("http://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString()+"&plot=full")
+                .then(function(response){
+                    return response.json()
+                })
+                //creates the object
+                .then(function(data){
+                    var tvData = {
+                        genre:data.Genre,
+                        title:data.Title,
+                        year:data.Year,
+                        poster:data.Poster,
+                        rating:data.imdbRating,
+                        plot:data.Plot
+                    }
+                    tvObject.push(tvData) 
+                })
         })
         //finds each tv show based on imbdID
-        fetch("http://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString()+"&plot=full")
-        .then(function(response){
-            return response.json()
-        })
-        //creates the object
-        .then(function(data){
-            var tvData = {
-                genre:data.Genre,
-                title:data.Title,
-                year:data.Year,
-                poster:data.Poster,
-                rating:data.imdbRating,
-                plot:data.Plot
-            }
-            tvObject.push(tvData) 
-        })
+        
     }
     //sets local items
-    setLocalItems()
+    
 }
 function setLocalItems(){
     localStorage.setItem('movies', JSON.stringify(movieObject))
