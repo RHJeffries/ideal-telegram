@@ -1,7 +1,7 @@
 
 
 //event listener for buttons
-$('.row.emojiPadding div button').click(function test(event){
+$('.row.emojiPadding div button').click(function (event){
     let ele = event.target
     if(ele.tagName === 'I'){
         let selectedEmotion = ele.id
