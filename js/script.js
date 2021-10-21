@@ -36,7 +36,7 @@ function checkLocalStorage(){
     tvObject = JSON.parse(localStorage.getItem('shows'))
     console.log(movieObject)
     console.log(tvObject)
-    if(movieObject==0 && tvObject==0){
+    if(movieObject===0 && tvObject===0){
         movieObject = []
         tvObject = []
         getMovieListAPI()
