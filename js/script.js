@@ -7,6 +7,8 @@ var tvList = [];
 var movieObject = [];
 var tvObject = [];
 
+var selectedEmotion = JSON.parse(localStorage.getItem('selectedEmotion'))
+
 var happy = [];
 var sad = [];
 var angry = [];
@@ -24,6 +26,8 @@ var inLoveTv = [];
 onLoad()
 function onLoad(){
     checkLocalStorage()
+    getEmotionList()
+    pageAmount()
 }
 
 //checks local storage creates objects if null
@@ -114,7 +118,33 @@ function setLocalItems(){
     localStorage.setItem('movies', JSON.stringify(movieObject))
     localStorage.setItem('shows', JSON.stringify(tvObject))
 }
-
+//shuffles arrays so they aren't always the same
+function shuffle(selectedEmotion) {
+    selectedEmotion.sort(() => Math.random() - 0.5);
+}
+function getEmotionList(){
+    if(selectedEmotion === "happy"){
+        getHappy()
+        selectedEmotion = happy
+        shuffle(selectedEmotion)
+    }else if(selectedEmotion === "sad"){
+        getSad()
+        selectedEmotion = sad
+        shuffle(selectedEmotion)
+    }else if(selectedEmotion === "angry"){
+        getAngry()
+        selectedEmotion = angry
+        shuffle(selectedEmotion)
+    }else if(selectedEmotion === "anxious"){
+        getAnxious()
+        selectedEmotion = anxious
+        shuffle(selectedEmotion)
+    }else if(selectedEmotion === "in-love"){
+        getInLove()
+        selectedEmotion = inLove
+        shuffle(selectedEmotion)
+    }
+}
 //seperate movies
 
 //function to get a list of happy movies
@@ -228,7 +258,6 @@ function getInLove(){
     }
 }
 //end of get emotion functions
-var selectedEmotion;
 var offset;
 //creates menu for 
 function createColumnCards(){
