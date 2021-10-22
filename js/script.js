@@ -14,12 +14,14 @@ var sad = [];
 var angry = [];
 var anxious = [];
 var inLove = [];
+var meh = []
 
 var happyTv = [];
 var sadTv = [];
 var angryTv = [];
 var anxiousTv = [];
 var inLoveTv = [];
+var mehTv = [];
 
 var activePage;
 var lastPage;
@@ -206,6 +208,16 @@ function getEmotionList(){
             selectedEmotion = inLoveTv
         }
         shuffle(selectedEmotion)
+    }else if(selectedEmotion === "meh"){
+        $('#movie-container-title').text('Meh you pick')
+        if(showList === "movies"){
+            getMeh()
+            selectedEmotion = meh
+        }else if(showList === "shows"){
+            getMehTv()
+            selectedEmotion = getMehTv
+        }
+        shuffle(selectedEmotion)
     }
 }
 //seperate movies
@@ -389,6 +401,12 @@ function getAngryTv(){
             }
         }
     }
+}
+function getMeh(){
+    meh = movieObject
+}
+function getMehTv(){
+    mehTv = tvObject
 }
 //get list of Anxious Tv shows
 function getAnxiousTv(){
