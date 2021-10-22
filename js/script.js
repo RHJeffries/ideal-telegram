@@ -21,12 +21,16 @@ var angryTv = [];
 var anxiousTv = [];
 var inLoveTv = [];
 
+var activePage;
+var lastPage;
+
+var showList = "movies"
 
 //when page loads
 onLoad()
 function onLoad(){
-    checkLocalStorage()
-    
+    highLightCurrentEmotion()
+    checkLocalStorage()    
 }
 
 //checks local storage creates objects if null
@@ -100,10 +104,12 @@ function getMovieData(){
                     var movieData = {
                         genre:data[i].Genre,
                         title:data[i].Title,
+                        titleId:movieList[i],
                         year:data[i].Year,
                         poster:data[i].Poster,
                         rating:data[i].imdbRating,
                         plot:data[i].Plot
+                        
                     }
                     movieObject.push(movieData)
                 }
@@ -131,6 +137,7 @@ function getTvData(){
                     var tvData = {
                         genre:data[i].Genre,
                         title:data[i].Title,
+                        titleId:movieList[i],
                         year:data[i].Year,
                         poster:data[i].Poster,
                         rating:data[i].imdbRating,
@@ -150,24 +157,54 @@ function shuffle(selectedEmotion) {
 }
 function getEmotionList(){
     if(selectedEmotion === "happy"){
-        getHappy()
-        selectedEmotion = happy
+        $('#movie-container-title').text('Movies based on: Happy')
+        if(showList === "movies"){
+            getHappy()
+            selectedEmotion = happy
+        }else if(showList === "shows"){
+            getHappyTv()
+            selectedEmotion = happyTv
+        }
         shuffle(selectedEmotion)
     }else if(selectedEmotion === "sad"){
-        getSad()
-        selectedEmotion = sad
+        $('#movie-container-title').text('Movies based on: Sad')
+        if(showList === "movies"){
+            getSad()
+            selectedEmotion = sad
+        }else if(showList === "shows"){
+            getSadTv()
+            selectedEmotion = sadTv
+        }
         shuffle(selectedEmotion)
     }else if(selectedEmotion === "angry"){
-        getAngry()
-        selectedEmotion = angry
+        $('#movie-container-title').text('Movies based on: Angry')
+        if(showList === "movies"){
+            getAngry()
+            selectedEmotion = angry
+        }else if(showList === "shows"){
+            getAngryTv()
+            selectedEmotion = angryTv
+        }
         shuffle(selectedEmotion)
     }else if(selectedEmotion === "anxious"){
-        getAnxious()
-        selectedEmotion = anxious
+        $('#movie-container-title').text('Movies based on: Anxious')
+        if(showList === "movies"){
+            getAnxious()
+            selectedEmotion = anxious
+        }else if(showList === "shows"){
+            getAnxiousTv()
+            selectedEmotion = anxiousTv
+        }
         shuffle(selectedEmotion)
     }else if(selectedEmotion === "in-love"){
-        getInLove()
-        selectedEmotion = inLove
+        $('#movie-container-title').text('Movies based on: Love')
+        if(showList === "movies"){
+            getInLove()
+            selectedEmotion = inLove
+        }else if(showList === "shows"){
+            getInLoveTv()
+            selectedEmotion = inLoveTv
+        }
         shuffle(selectedEmotion)
     }
 }
@@ -284,79 +321,6 @@ function getInLove(){
     }
 }
 //end of get emotion functions
-var offset;
-//creates menu for 
-function createColumnCards(){
-    var mainCardArea = $('#movie-container .row')
-    mainCardArea.children().remove()
-    if(!offset){
-        offset = 1
-    }
-    for(i=(offset*12)-11; i<=offset*12; i++){
-        if(!selectedEmotion[i]){
-            return
-        }
-        //creates main card column
-        var mainCardAreaNumber = $('<div class="col s6 m4  12" id=movieNo-'+i+'>')
-        mainCardAreaNumber.appendTo(mainCardArea)
-        //creates the main card
-        $('<div class="card">').appendTo(mainCardArea.children())
-        //gives the card an image container and specifies the image
-        $('<div class="card-image waves-effect waves-block waves-light">').appendTo(mainCardAreaNumber.find('.card'))
-        $(`<img class="activator" src="${selectedEmotion[i].poster}">`).appendTo(mainCardAreaNumber.find('.card-image'))
-        //gives the card details and a link
-        $('<div class="card-content cardBg">').appendTo(mainCardAreaNumber.find('.card'))
-        $('<span class="card-title activator white-text text-lighter customCardTitle">').text(selectedEmotion[i].title).appendTo(mainCardAreaNumber.find('.card-content'))
-        $('<i class="material-icons right">').text('more_vert').appendTo(mainCardAreaNumber.find('.card-title'))
-        $('<p>').appendTo(mainCardAreaNumber.find('.card-content'))
-        $('<a href="#">').text('This is a link').appendTo(mainCardAreaNumber.find('.card-content p'))
-        //creates the reveal part of card
-        $('<div class="card-reveal cardBg">').appendTo(mainCardAreaNumber.find('.card'))
-        $('<span class="card-title activator white-text text-lighter customCardTitle">').text(selectedEmotion[i].title).appendTo(mainCardAreaNumber.find('.card-reveal'))
-        $('<i class="material-icons right">').text('close').appendTo(mainCardAreaNumber.find('.card-reveal .card-title'))
-        $('<p class="white-text text-lighter">').text(selectedEmotion[i].plot).appendTo(mainCardAreaNumber.find('.card-reveal'))
-    }
-}
-var activePage;
-var lastPage;
-//function to create amount of pages in pagination
-function pageAmount(){
-    var pages = Math.ceil(selectedEmotion.length/12)
-    lastPage = pages
-    for(i=1; i<=pages;i++){
-        //from alfie ty much hlep
-        $(`<li class="${i === 1 ? 'active' : 'wave-length'}"><a id="movie-page-${i}">${i}</a></li>`).insertBefore('.pagination li:last-child')
-    }
-    activePage = 1;
-    createColumnCards()
-}
-
-//function to move page one left
-$('#movie-container-pages').find('.pagination li:first-child a').click(function previousMoviePage(){
-    if(activePage === 1){
-        return
-    }else{
-        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'waves-effect')
-        activePage--;
-        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'active')
-        console.log(activePage)
-        offset = activePage
-        createColumnCards()
-    }
-})
-//function to move page on right
-$('#movie-container-pages').find('.pagination li:last-child a').click(function nextMoviePage(){
-    if(activePage === lastPage){
-        return
-    }else{
-        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'waves-effect')
-        activePage++
-        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent('li').attr('class', 'active')
-        console.log(activePage)
-        offset = activePage
-        createColumnCards()
-    }
-})
 
 //function to get a list of happy Tv shows
 function getHappyTv(){
@@ -431,7 +395,7 @@ function getAnxiousTv(){
     var emotionAnxious = ["Crime", "Documentary", "Film-Noir", "Horror", "Music", "Mystery", "Thriller"]
     var TvAlreadyAdded = false;
     for(i=0;i<emotionAnxious.length;i++){
-        for(j=0;j<TvAlreadyAdded.length;j++){
+        for(j=0;j<tvObject.length;j++){
             if(tvObject[j].genre.search(emotionAnxious[i]) >= 0){
                 for(k=0;k<anxiousTv.length;k++){
                     if(anxiousTv[k] === tvObject[j]){
@@ -469,6 +433,108 @@ function getInLoveTv(){
     }
 }
 //end of get Tv emotion functions
+var offset;
+//creates menu for 
+function createColumnCards(){
+    $('a.cc1').css('background-image', 'url('+selectedEmotion[1].poster+')')
+    $('a.cc2').css('background-image', 'url('+selectedEmotion[2].poster+')')
+    $('a.cc3').css('background-image', 'url('+selectedEmotion[3].poster+')')
+    $('a.cc4').css('background-image', 'url('+selectedEmotion[4].poster+')')
+    var mainCardArea = $('#movie-container .row')
+    mainCardArea.children().remove()
+    if(!offset){
+        offset = 1
+    }
+    for(i=(offset*12)-11; i<=offset*12; i++){
+        if(!selectedEmotion[i]){
+            return
+        }
+        //creates main card column
+        var mainCardAreaNumber = $('<div class="col s6 m4" id=movieNo-'+i+'>')
+        mainCardAreaNumber.appendTo(mainCardArea)
+        //creates the main card
+        $('<div class="card">').appendTo(mainCardAreaNumber)
+        //gives the card an image container and specifies the image
+        $('<div class="card-image waves-effect waves-block waves-light">').appendTo(mainCardAreaNumber.find('.card'))
+        $(`<img class="responsive-img" height="350px" src="${selectedEmotion[i].poster}">`).appendTo(mainCardAreaNumber.find('.card-image'))
+        //gives the card details and a link
+        $('<div class="card-content cardBg">').appendTo(mainCardAreaNumber.find('.card'))
+        $('<span class="card-title activator white-text text-lighter customCardTitle">').text(selectedEmotion[i].title).appendTo(mainCardAreaNumber.find('.card-content'))
+        $('<i class="material-icons right">').text('more_vert').appendTo(mainCardAreaNumber.find('.card-title'))
+        $('<p>').appendTo(mainCardAreaNumber.find('.card-content'))
+        $(`<a href="https://www.imdb.com/title/${selectedEmotion[i].titleId}/">`).text('imdb page').appendTo(mainCardAreaNumber.find('.card-content p'))
+        //creates the reveal part of card
+        $('<div class="card-reveal cardBg">').appendTo(mainCardAreaNumber.find('.card'))
+        $('<span class="card-title activator white-text text-lighter customCardTitle">').text(selectedEmotion[i].title).appendTo(mainCardAreaNumber.find('.card-reveal'))
+        $('<i class="material-icons right">').text('close').appendTo(mainCardAreaNumber.find('.card-reveal .card-title'))
+        $('<p class="white-text text-lighter">').text(selectedEmotion[i].plot).appendTo(mainCardAreaNumber.find('.card-reveal'))
+    }
+}
+//function to create amount of pages in pagination
+function pageAmount(){
+    $('.pagination li:not(:first-child):not(:last-child)').remove();
+    var pages = Math.ceil(selectedEmotion.length/12)
+    lastPage = pages
+    for(i=1; i<=pages;i++){
+        //from alfie ty much hlep
+        $(`<li class="${i === 1 ? 'active' : 'wave-length'}"><a id="movie-page-${i}">${i}</a></li>`).insertBefore('.pagination li:last-child')
+    }
+    activePage = 1;
+    createColumnCards()
+}
+
+//function to move page one left
+$('#movie-container-pages').find('.pagination li:first-child a').click(function previousMoviePage(){
+    if(activePage === 1){
+        return
+    }else{
+        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'waves-effect')
+        activePage--;
+        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'active')
+        console.log(activePage)
+        offset = activePage
+        createColumnCards()
+    }
+})
+//function to move page on right
+$('#movie-container-pages').find('.pagination li:last-child a').click(function nextMoviePage(){
+    if(activePage === lastPage){
+        return
+    }else{
+        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent().attr('class', 'waves-effect')
+        activePage++
+        $('#movie-container-pages').find('#movie-page-'+activePage+'').parent('li').attr('class', 'active')
+        console.log(activePage)
+        offset = activePage
+        createColumnCards()
+    }
+})
+$('#selector-buttons').click(function generateMovieOrTv(event){
+    if(event.target.id === "movie-button"){
+        showList = "movies"
+    }else if(event.target.id === "tv-button"){
+        showList = "shows"
+    }
+    selectedEmotion = JSON.parse(localStorage.getItem('selectedEmotion'))
+    getEmotionList()
+    pageAmount()
+    createColumnCards()
+})
+$('#emotion-buttons').click(function (event){
+    let ele = event.target
+    if(ele.tagName === 'I'){
+        selectedEmotion = ele.id
+        localStorage.setItem('selectedEmotion', JSON.stringify(selectedEmotion))
+        window.location.href = "landing.html"
+    }else{
+        selectedEmotion = $(ele).find('i').attr('id')
+        localStorage.setItem('selectedEmotion', JSON.stringify(selectedEmotion))
+        window.location.href = "landing.html"
+    }
+})
+function highLightCurrentEmotion(){
+    $('#emotion-buttons').find('#'+selectedEmotion).parent().attr('class', 'waves-effect light-blue darken-4 btn-large')
+}
 
 //code for materialize carousel
 $('.carousel').carousel({
