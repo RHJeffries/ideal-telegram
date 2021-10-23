@@ -1,6 +1,6 @@
 const apiKey= "91114430"
 const imdbKey = "k_7sn98acw"
-const omdbURL = "http://www.omdbapi.com/?apikey=91114430"
+const omdbURL = "https://www.omdbapi.com/?apikey=91114430"
 var movieList = [];
 var tvList = [];
 
@@ -90,7 +90,7 @@ function getTVShowListAPI (){
 function getMovieData(){
     let promises = [];
     for(let i = 0; i <movieList.length; i++){
-        promises.push(fetch("http://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString()+"&plot=full"))
+        promises.push(fetch("https://www.omdbapi.com/?apikey=91114430&i="+movieList[i].toString()+"&plot=full"))
     }
     Promise.all(promises)
         .then(function (responseArr){
@@ -123,7 +123,7 @@ function getMovieData(){
 function getTvData(){
     let promises = [];
     for(let i = 0; i <tvList.length; i++){
-        promises.push(fetch("http://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString()+"&plot=full"))
+        promises.push(fetch("https://www.omdbapi.com/?apikey=91114430&i="+tvList[i].toString()+"&plot=full"))
     }
     Promise.all(promises)
         .then(function (responseArr){
