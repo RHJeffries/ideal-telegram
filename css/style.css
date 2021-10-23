@@ -107,6 +107,9 @@ background-color: #141a31;
   display: flex;
   justify-content: center;
 }
+.pagination li.active a {
+  background-color: #01579b;
+}
 .cardBg {
  background-color: #141a31 !important;
 }
