@@ -159,7 +159,7 @@ function shuffle(selectedEmotion) {
 }
 function getEmotionList(){
     if(selectedEmotion === "happy"){
-        $('#movie-container-title').text('Movies based on: Happy')
+        $('#movie-container-title').text('Titles based on: Happy')
         if(showList === "movies"){
             getHappy()
             selectedEmotion = happy
@@ -169,7 +169,7 @@ function getEmotionList(){
         }
         shuffle(selectedEmotion)
     }else if(selectedEmotion === "sad"){
-        $('#movie-container-title').text('Movies based on: Sad')
+        $('#movie-container-title').text('Titles based on: Sad')
         if(showList === "movies"){
             getSad()
             selectedEmotion = sad
@@ -179,7 +179,7 @@ function getEmotionList(){
         }
         shuffle(selectedEmotion)
     }else if(selectedEmotion === "angry"){
-        $('#movie-container-title').text('Movies based on: Angry')
+        $('#movie-container-title').text('Titles based on: Angry')
         if(showList === "movies"){
             getAngry()
             selectedEmotion = angry
@@ -189,7 +189,7 @@ function getEmotionList(){
         }
         shuffle(selectedEmotion)
     }else if(selectedEmotion === "anxious"){
-        $('#movie-container-title').text('Movies based on: Anxious')
+        $('#movie-container-title').text('Titles based on: Anxious')
         if(showList === "movies"){
             getAnxious()
             selectedEmotion = anxious
@@ -199,7 +199,7 @@ function getEmotionList(){
         }
         shuffle(selectedEmotion)
     }else if(selectedEmotion === "in-love"){
-        $('#movie-container-title').text('Movies based on: Love')
+        $('#movie-container-title').text('Titles based on: Love')
         if(showList === "movies"){
             getInLove()
             selectedEmotion = inLove
