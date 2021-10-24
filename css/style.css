@@ -106,6 +106,9 @@ background-color: #141a31;
 .pagination{
   display: flex;
   justify-content: center;
+  /* updated css to remove gapping color issue */
+  margin-bottom: 0px;
+  padding:20px;
 }
 .pagination li.active a {
   background-color: #01579b;
